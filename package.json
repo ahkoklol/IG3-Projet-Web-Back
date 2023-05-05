@@ -1,0 +1,29 @@
+{
+  "name": "ig3-projet-web-back",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/server.js",
+  "scripts": {
+    "dev": "nodemon ./src/server.js",
+    "start": "node ./src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahkoklol/IG3-Projet-Web-Back.git"
+  },
+  "author": "Wayne Wan Chow Wah",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/ahkoklol/IG3-Projet-Web-Back/issues"
+  },
+  "homepage": "https://github.com/ahkoklol/IG3-Projet-Web-Back#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "helmet": "^6.0.1",
+    "pg": "^8.10.0",
+    "psql": "^0.0.1",
+    "sequelize": "^6.30.0"
+  }
+}
