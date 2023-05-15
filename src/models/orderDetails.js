@@ -36,4 +36,9 @@ const orderDetails = sequelize.define('orderDetails', {
 
 );
 
+//an orderDetails is for 1 user
+user.hasOne(orderDetails, { foreignKey: 'idUser' })
+
+
+
 module.exports = orderDetails;

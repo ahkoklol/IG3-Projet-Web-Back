@@ -40,4 +40,10 @@ const cartItem = sequelize.define('cartItem', {
 
 );
 
+//a shoppingSession has 1 cart
+shoppingSession.hasOne(cartItem, { foreignKey: 'idShopping' })
+
+//a product can be in many baskets
+product.hasMany(cartItem, { foreignKey: 'idProduct' })
+
 module.exports = cartItem;

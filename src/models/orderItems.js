@@ -46,4 +46,10 @@ const orderItems = sequelize.define('orderItems', {
 
 );
 
+//an orderItems has one orderDetails
+orderDetails.hasOne(orderItems, { foreignKey: 'idOrderDetails' })
+
+//an orderItems has one product
+product.hasMany(orderItems, { foreignKey: 'idProduct' })
+
 module.exports = orderItems;

@@ -36,4 +36,7 @@ const shoppingSession = sequelize.define('shoppingSession', {
 
 );
 
+//a shoppingSession is for 1 user
+user.hasOne(shoppingSession, { foreignKey: 'idUser' })
+
 module.exports = shoppingSession;

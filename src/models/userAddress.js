@@ -66,4 +66,7 @@ const userAddress = sequelize.define('userAddress', {
 
 );
 
+//a userAddress has one user
+user.hasMany(userAddress, { foreignKey: 'idUser'})
+
 module.exports = userAddress;
