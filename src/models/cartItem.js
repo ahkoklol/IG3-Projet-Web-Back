@@ -17,7 +17,7 @@ const cartItem = sequelize.define('cartItem', {
         allowNull: false,
         references: {
             model: shoppingSession,
-            key: 'idShopping'
+             key: 'idShopping'
         }
     },
 
