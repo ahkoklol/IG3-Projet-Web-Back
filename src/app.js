@@ -1,7 +1,7 @@
 //server config
 
 const express = require("express")
-
+const app = express()
 const helmet = require("helmet")
 
 const exampleRoute = require("./routes/exampleRoute");
@@ -13,7 +13,9 @@ const shoppingSessionRoutes = require("./routes/shoppingSessionRoutes");
 const userAddressRoutes = require("./routes/userAddressRoutes");
 const userRoutes = require("./routes/userRoutes");
 
-const app = express()
+app.get("/", (req, res)=>{
+    res.send("hello world")
+});
 
 //app.use(helmet())
 
@@ -38,5 +40,6 @@ app.get("/", (req, res)=>{
 });
 
 */
+
 
 module.exports = app;

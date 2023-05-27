@@ -6,7 +6,7 @@ const app = require("./app")
 
 const PORT = 8800;
 
-//server.listen(PORT, ()=>{console.log(`the server is running on the address: http://localhost:${PORT}`)})
+//app.listen(PORT, ()=>{console.log(`the server is running on the address: http://localhost:${PORT}`)})
 
 
 // Empêche le programme de crasher en production, car il n'y pas dotenv
