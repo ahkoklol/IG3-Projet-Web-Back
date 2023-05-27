@@ -1,5 +1,6 @@
+const express = require('express');
 const router = express.Router();
-const shoppingSessionController = require('../controllers/shoppingSession');
+const shoppingSessionController = require('../controllers/shoppingSessionController');
 
 // Get a single shopping session by ID
 router.get('/:id', shoppingSessionController.getShoppingSessionById);

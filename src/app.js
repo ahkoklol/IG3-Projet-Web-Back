@@ -20,7 +20,7 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
-app.use("/example", exampleRoute)
+//app.use("/example", exampleRoute)
 app.use("/carItem", carItemRoutes)
 app.use("/orderDetails", orderDetailsRoutes)
 app.use("/orderItems", orderItemsRoutes)

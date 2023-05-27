@@ -27,7 +27,9 @@ require('./models/userAddress');
 
 (async () => {
   try {
+    console.log('0')
       await sequelize.authenticate();
+      console.log('1')
       await sequelize.sync(); //{force: true} to sync new tables to pgadmin
       console.log('Database connection established and models synced.');
       const server = http.createServer(app)

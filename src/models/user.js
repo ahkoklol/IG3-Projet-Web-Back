@@ -30,18 +30,17 @@ const user = sequelize.define('user', {
         allowNull: false,
     },
 
-    lastName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-
     telephone: {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
 
-},
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
 
+},
 
     {
     timestamps: false, // Empêche Sequelize de créer les colonnes createdAt et updatedAt

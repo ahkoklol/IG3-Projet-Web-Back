@@ -55,6 +55,11 @@ const userAddress = sequelize.define('userAddress', {
         allowNull: false,
     },
 
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+
 },
 
 

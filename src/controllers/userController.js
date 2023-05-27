@@ -37,6 +37,24 @@ const createUser = async (req, res) => {
       password,
       firstName,
       lastName,
+      telephone,
+      email
+    });
+    res.status(201).json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+const signUp = async (req, res) => {
+  const { username, password, firstName, lastName, telephone } = req.body;
+  try {
+    const user = await User.create({
+      username,
+      password,
+      firstName,
+      lastName,
       telephone
     });
     res.status(201).json(user);
@@ -46,6 +64,32 @@ const createUser = async (req, res) => {
   }
 };
 
+const signIn = async (req, res) => {
+  const { username, password } = req.body;
+  try {
+    const user = await User.findOne({
+      where: {
+        username: username,
+        password: password
+      }
+    });
+
+    if (!user) {
+      return res.status(401).json({ message: 'User not found' });
+    }
+
+    const valid = await bcrypt.compare(password, user.password);
+    if (!valid) {
+      return res.status(401).json({ message: 'Incorrect password' });
+    }
+
+    console.log("User " + user + " is connected");
+    const token = jwt.sign({ idUser: user.idUser }, process.env.JWT_SECRET, { expiresIn: '24h' });
+    res.status(200).json({ token: token });
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
 
 // update user
 const updateUser = async (req, res) => {

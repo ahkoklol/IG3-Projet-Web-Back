@@ -1,10 +1,9 @@
 const { Sequelize } = require('sequelize');
 
 const postgrePassword = require('C:/Users/wayne/PROJET WEB/credentials')
-
+require('dotenv').config()
 const sequelize = new Sequelize(process.env.DATABASE_URL, { logging: false });
 
-require('dotenv').config()
 
 /*
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
