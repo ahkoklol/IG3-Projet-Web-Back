@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/ahkoklol/IG3-Projet-Web-Back#readme",
   "dependencies": {
+    "credentials": "^3.0.2",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "helmet": "^6.0.1",
