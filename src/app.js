@@ -4,6 +4,7 @@ const express = require("express")
 const app = express()
 const helmet = require("helmet")
 const cors = require('cors')
+const cookieParser = require("cookie-parser")
 
 const exampleRoute = require("./routes/exampleRoute");
 const cartItemRoutes = require("./routes/cartItemRoutes");
@@ -16,13 +17,18 @@ const userRoutes = require("./routes/userRoutes");
 
 const database = require("./config/database")
 
+const user = require('./models/user');
 
+const corsOptions = {
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+}
 
-//app.use(helmet())
-
+app.use(cors(corsOptions))
+app.use(helmet())
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
-app.use(cors())
+
 
 //main page
 app.get("/", (req, res)=>{
@@ -38,7 +44,7 @@ app.use("/shoppingSession", shoppingSessionRoutes)
 app.use("/userAddress", userAddressRoutes)
 app.use("/user", userRoutes)
 
-
+/*
 //create user
 app.post("/register", (req, res)=>{
 
@@ -47,12 +53,18 @@ app.post("/register", (req, res)=>{
     const password = req.body.password
     const email = req.body.email
 
-    database.query(
-        "INSERT INTO users (firstName, lastName, telephone, email) VALUES (?, ?)", [firstName, lastName, password, email], (err, result)=>{
-            console.log(err);
-        }
-    )
+    user.create({
+        firstName: firstName,
+        lastName: lastName,
+        password: password,
+        email: email
+    }).then(user => {
+        console.log('Created user', user.dataValues);
+      }).catch(err => {
+        console.error('Failed to create user', err);
+      });
 })
+
 
 //login user
 app.post("/login", (req, res)=>{
@@ -74,7 +86,7 @@ app.post("/login", (req, res)=>{
         }
     )
 })
-
+*/
 /*
 
 app.get("/", (req, res)=>{

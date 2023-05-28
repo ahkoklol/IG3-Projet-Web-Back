@@ -36,24 +36,23 @@ const getUserById = async (req, res) => {
 
 // Create a user (member)
 const signUp = async (req, res) => {
+  console.log("body", req.body);
   if (!isemail.validate(req.body.email)) {
-    return res.status(400).json({ message: 'Veuillez saisir un mail valide !', severity: 'error' });
+    return res.status(406).json({ message: 'Veuillez saisir un mail valide !', severity: 'error' });
   }
 
   // Check if the email entered by the user already exists
   const user = await User.findOne({ where: { email: req.body.email } });
   if (user) {
-    return res.status(400).json({ message: 'Email was already used, please use another email address.', severity: 'error' });
+    return res.status(409).json({ message: 'Email was already used, please use another email address.', severity: 'error' });
   }
 
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const newUser = await User.create({
-      username: req.body.username,
       password: hashedPassword,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      telephone: req.body.telephone,
       email: req.body.email,
     });
     res.status(201).json({ newUser, message: 'Registration complete', severity: 'success' });
@@ -65,12 +64,12 @@ const signUp = async (req, res) => {
 
 
 const signIn = async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
+  console.log("body", req.body)
   try {
     const user = await User.findOne({
       where: {
-        username: username,
-        password: password
+        email: email,
       }
     });
 
@@ -85,6 +84,7 @@ const signIn = async (req, res) => {
 
     console.log("User " + user + " is connected");
     const token = jwt.sign({ idUser: user.idUser }, process.env.JWT_SECRET, { expiresIn: '24h' });
+    console.log("ok1")
     res.status(200).json({ token: token });
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });

@@ -20,6 +20,7 @@
   "homepage": "https://github.com/ahkoklol/IG3-Projet-Web-Back#readme",
   "dependencies": {
     "bcrypt": "^5.1.0",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "credentials": "^3.0.2",
     "dotenv": "^16.0.3",
@@ -29,6 +30,7 @@
     "jsonwebtoken": "^9.0.0",
     "pg": "^8.10.0",
     "psql": "^0.0.1",
+    "react-hot-toast": "^2.4.1",
     "sequelize": "^6.30.0"
   }
 }

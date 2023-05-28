@@ -25,10 +25,12 @@ const user = sequelize.define('user', {
         allowNull: false,
     },
 
+    /*
     telephone: {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
+    */
 
     email: {
         type: DataTypes.STRING,
@@ -37,7 +39,7 @@ const user = sequelize.define('user', {
 
     admin_level: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
         validate: {
           min: 0,
           max: 2,
