@@ -1,4 +1,10 @@
 const User = require('../models/user');
+const {Sequelize} = require('sequelize');
+const database = require('../config/database.js');
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const isemail = require("isemail");
+//const auth = require("../middleware/auth");
 
 // get all users
 const getUsers = async (req, res) => {
@@ -28,41 +34,35 @@ const getUserById = async (req, res) => {
 };
 
 
-// create user
-const createUser = async (req, res) => {
-  const { username, password, firstName, lastName, telephone } = req.body;
+// Create a user (member)
+const signUp = async (req, res) => {
+  if (!isemail.validate(req.body.email)) {
+    return res.status(400).json({ message: 'Veuillez saisir un mail valide !', severity: 'error' });
+  }
+
+  // Check if the email entered by the user already exists
+  const user = await User.findOne({ where: { email: req.body.email } });
+  if (user) {
+    return res.status(400).json({ message: 'Email was already used, please use another email address.', severity: 'error' });
+  }
+
   try {
-    const user = await User.create({
-      username,
-      password,
-      firstName,
-      lastName,
-      telephone,
-      email
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const newUser = await User.create({
+      username: req.body.username,
+      password: hashedPassword,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      telephone: req.body.telephone,
+      email: req.body.email,
     });
-    res.status(201).json(user);
+    res.status(201).json({ newUser, message: 'Registration complete', severity: 'success' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(400).json({ message: 'Error creating user', severity: 'error' });
   }
 };
 
-const signUp = async (req, res) => {
-  const { username, password, firstName, lastName, telephone } = req.body;
-  try {
-    const user = await User.create({
-      username,
-      password,
-      firstName,
-      lastName,
-      telephone
-    });
-    res.status(201).json(user);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server error' });
-  }
-};
 
 const signIn = async (req, res) => {
   const { username, password } = req.body;
@@ -113,6 +113,52 @@ const updateUser = async (req, res) => {
   }
 };
 
+const setAdmin = async (req, res) => {
+  try {
+    const sender = await User.findByPk(req.auth.userId);
+    const senderAdminLevel = sender.admin_level;
+    const mailAddress = req.body.mail_address;
+    const user = await User.findByPk(mailAddress);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (senderAdminLevel < 1 || user.admin_level === 2) {
+      return res.status(403).json({ message: 'Forbidden' });
+    }
+
+    await user.update({ admin_level: 1 });
+    return res.status(200).json({ message: 'User is now admin' });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
+
+const unsetAdmin = async (req, res) => {
+  try {
+    const sender = await User.findByPk(req.auth.userId);
+    const senderAdminLevel = sender.admin_level;
+    const mailAddress = req.body.mail_address;
+    const user = await User.findByPk(mailAddress);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (senderAdminLevel < 1 || user.admin_level === 2) {
+      return res.status(403).json({ message: 'Forbidden' });
+    }
+
+    await user.update({ admin_level: 0 });
+    return res.status(200).json({ message: 'User is no longer admin' });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
+
 
 // delete user
 const deleteUser = async (req, res) => {
@@ -134,7 +180,10 @@ const deleteUser = async (req, res) => {
 module.exports = {
   getUsers,
   getUserById,
-  createUser,
   updateUser,
-  deleteUser
+  deleteUser,
+  signUp,
+  signIn,
+  setAdmin,
+  unsetAdmin,
 };

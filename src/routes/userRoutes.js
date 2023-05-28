@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const authMiddleware = require('../middleware/authentification');
 const {
   getUsers,
   getUserById,
-  createUser,
+  signUp,
+  signIn,
   updateUser,
   deleteUser
 } = require('../controllers/userController');
@@ -14,8 +16,11 @@ router.get('/', getUsers);
 // Get user by ID
 router.get('/:id', getUserById);
 
-// Create user
-router.post('/', createUser);
+// Signup user
+router.post('/register', signUp);
+
+// Signin user
+router.post('/login', signIn);
 
 // Update user
 router.put('/:id', updateUser);

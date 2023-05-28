@@ -10,11 +10,6 @@ const user = sequelize.define('user', {
         allowNull: false
     }, 
 
-    username: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-
     password: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -38,6 +33,15 @@ const user = sequelize.define('user', {
     email: {
         type: DataTypes.STRING,
         allowNull: false,
+    },
+
+    admin_level: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          min: 0,
+          max: 2,
+        },
     },
 
 },
