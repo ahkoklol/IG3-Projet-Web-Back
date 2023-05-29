@@ -12,6 +12,7 @@ const sequelize = new Sequelize(
   }
 */
 
+
 const sequelize = new Sequelize(
   process.env.PG_NAME,
   process.env.PG_USERNAME,
