@@ -22,27 +22,22 @@ const userAddress = sequelize.define('userAddress', {
 
     descriptionaddressLine1: {
         type: DataTypes.TEXT,
-        allowNull: false,
-    },
-
-    descriptionaddressLine2: {
-        type: DataTypes.TEXT,
-        allowNull: false,
+        allowNull: true,
     },
 
     city: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     },
 
     postalCode: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
     },
 
     country: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     },
 
     telephone: {
@@ -52,12 +47,12 @@ const userAddress = sequelize.define('userAddress', {
 
     mobile: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
     },
 
     email: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     },
 
 },

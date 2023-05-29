@@ -4,7 +4,7 @@ const database = require('../config/database.js');
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const isemail = require("isemail");
-//const auth = require("../middleware/auth");
+const UserAddress = require('../models/userAddress');
 
 // get all users
 const getUsers = async (req, res) => {
@@ -55,7 +55,13 @@ const signUp = async (req, res) => {
       lastName: req.body.lastName,
       email: req.body.email,
     });
-    res.status(201).json({ newUser, message: 'Registration complete', severity: 'success' });
+    
+    // Create a userAddress for the new user
+    const newUserAddress = await UserAddress.create({
+      userID: newUser.idUser,
+    });
+
+    res.status(201).json({ newUser, newUserAddress, message: 'Registration complete', severity: 'success' });
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: 'Error creating user', severity: 'error' });

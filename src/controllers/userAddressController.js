@@ -2,12 +2,11 @@ const UserAddress = require("../models/userAddress");
 
 // create user address
 exports.createUserAddress = async (req, res) => {
-  const { userID, descriptionaddressLine1, descriptionaddressLine2, city, postalCode, country, telephone, mobile } = req.body;
+  const { userID, descriptionaddressLine1, city, postalCode, country, telephone, mobile } = req.body;
   try {
     const newUserAddress = await UserAddress.create({
       userID: userID,
       descriptionaddressLine1: descriptionaddressLine1,
-      descriptionaddressLine2: descriptionaddressLine2,
       city: city,
       postalCode: postalCode,
       country: country,
@@ -54,9 +53,12 @@ exports.updateUserAddressById = async (req, res) => {
   const { id, userID, descriptionaddressLine1, descriptionaddressLine2, city, postalCode, country, telephone, mobile } = req.body;
   try {
     const userAddress = await UserAddress.findByPk(id);
+    if (!userAddress) {
+      return res.status(404).json({ error: 'User address not found' });
+    }
     userAddress.userID = userID;
     userAddress.descriptionaddressLine1 = descriptionaddressLine1;
-    userAddress.descriptionaddressLine2 = descriptionaddressLine2;
+    //userAddress.descriptionaddressLine2 = descriptionaddressLine2;
     userAddress.city = city;
     userAddress.postalCode = postalCode;
     userAddress.country = country;
