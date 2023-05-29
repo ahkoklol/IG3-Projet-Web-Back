@@ -41,16 +41,23 @@ exports.createProduct = async (req, res) => {
     const { name, description, price } = req.body;
     console.log(name, description, price);
     try {
-        const newProduct = await Product.create({
-            name: name,
-            description: description,
-            price: price
+      let product = await Product.findOne({
+        where: { name },
+      });
+      if (product) {
+        res.status(400).json({ error: "Product already exists" });
+      } else {
+        product = await Product.create({
+          name: name,
+          description: description,
+          price: price,
         });
-        res.status(201).json(newProduct);
+        res.status(201).json(product);
+      }
     } catch (error) {
-        res.status(400).json({ error: "Cannot create product" });
+      res.status(400).json({ error: "Cannot create product" });
     }
-};
+  };
 
 
 // update product
